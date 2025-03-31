@@ -42,7 +42,7 @@ void driveForwardSimple(double distance, double speed) {
 //Drive Reverse Simple
 void driveReverseSimple(double distance, double speed) {   
     LeftMotors.resetPosition();
-    while(LeftMotors.position(degrees)<distance){
+    while(LeftMotors.position(degrees) > -distance){
          LeftMotors.spin(reverse, speed, pct);
          RightMotors.spin(reverse, speed, pct);
      }
@@ -51,7 +51,7 @@ void driveReverseSimple(double distance, double speed) {
  }
  
 //Simple Turn Right
-void turnRightSimple(int target, int speed) {   
+void turnRightSimple(double target, double speed) {   
     InertialA.resetRotation();
     wait(.25, sec); //Sometimes Intertial/Gyro Sensors need some time to settle
     while(InertialA.rotation(degrees) < target) {

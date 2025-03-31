@@ -18,16 +18,16 @@ vex::brain       Brain;
 controller Con1 = controller(primary);
 
 // Six Motor Blue Gear Drive - For Six Motor Drive Trains
-motor LeftFrontMotor = motor(PORT17, ratio6_1, true);
-motor RightFrontMotor = motor(PORT15, ratio6_1, false);
-motor LeftBackMotor = motor(PORT20, ratio6_1, true);
-motor RightBackMotor = motor(PORT12, ratio6_1, false);
-motor LeftStackMotor = motor(PORT5, ratio6_1, false);
-motor RightStackMotor = motor(PORT3, ratio6_1, true);
+motor LeftFrontMotor(PORT3, ratio6_1, false); 
+motor LeftStackMotor(PORT2, ratio6_1, false); 
+motor LeftBackMotor(PORT6, ratio6_1, true);
+motor RightStackMotor(PORT11, ratio6_1, true); 
+motor RightFrontMotor(PORT1, ratio6_1, true); 
+motor RightBackMotor(PORT12, ratio6_1, false); 
 
 // Motor Groups 
 motor_group LeftMotors = motor_group(LeftFrontMotor, LeftBackMotor, LeftStackMotor);
 motor_group RightMotors = motor_group(RightFrontMotor, RightBackMotor, RightStackMotor);
 
 //Sensors
-inertial InertialA = inertial(PORT10);
+inertial InertialA = inertial(PORT4);

@@ -10,11 +10,11 @@ extern controller Con1;
 
 // Six Motor Blue Gear Drive
 extern motor LeftFrontMotor;
-extern motor RightFrontMotor;
-extern motor LeftBackMotor;
-extern motor RightBackMotor;
 extern motor LeftStackMotor;
+extern motor LeftBackMotor;
+extern motor RightFrontMotor;
 extern motor RightStackMotor;
+extern motor RightBackMotor;
 
 // Motor Groups
 extern motor_group LeftMotors;

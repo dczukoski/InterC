@@ -1,0 +1,77 @@
+timeouts and min speed not included
+
+void driveForwardPH(double distance) {    //inches
+    //Drive Forward with Proportional Stop and Proportional Heading Correction
+    InertialA.resetHeading();
+    wait(.25, sec); //Intertial Sensors may take some time to settle
+    
+    double heading = InertialA.heading(degrees); //save heading
+
+    LeftFrontMotor.resetPosition();
+  
+    double w_radius = 4.0 / 2.0; //wheel
+    double r_conv = 3.14159 / 180.0; //radian conversion
+    double gear_ratio = 48.0 / 72.0; //drive train gear ratio
+    double target = distance / (r_conv * w_radius * gear_ratio);
+    
+    printf ("start ******************************");
+
+    while(LeftFrontMotor.position(degrees) < target) {
+        //adjust speed to slow down to the target
+        //double proportion = target - LeftFrontMotor.position(degrees); 
+        //double kp_d = .05;
+        //double min_speed = 1;
+        double max_speed = 100;
+        //double speed = proportion * kp_d + min_speed; //one way to break out of the loop
+
+        //adjust to drive straight
+        double speed = 25;
+        
+        double error = heading-InertialA.heading(degrees);
+     
+        double kp_s = .1;
+        double output = error*kp_s;
+
+        double leftSpeed = speed-output;
+        double rightSpeed = speed+output;
+
+        printf ("head %f, err %f, ls %f, rs %f | ", heading, error, leftSpeed, rightSpeed);
+
+        //if (leftSpeed > 100) leftSpeed = 100;     // In old IQ Speed over 100 results in no movement (velocity cannot be > 100)
+        //if (leftSpeed > max_speed) leftSpeed = max_speed;     // In old IQ Speed over 100 results in no movement (velocity cannot be > 100)
+        //if (rightSpeed > 100) rightSpeed = 100;     // In old IQ Speed over 100 results in no movement (velocity cannot be > 100)
+        //if (rightSpeed > max_speed) rightSpeed = max_speed;     // In old IQ Speed over 100 results in no movement (velocity cannot be > 100)
+
+        LeftFrontMotor.spin(fwd, leftSpeed, pct);
+        RightFrontMotor.spin(fwd, rightSpeed, pct);
+        LeftBackMotor.spin(fwd, leftSpeed, pct);
+        RightBackMotor.spin(fwd, rightSpeed, pct);
+        LeftStackMotor.spin(fwd, leftSpeed, pct);
+        RightStackMotor.spin(fwd, rightSpeed, pct);
+    }
+
+    //stopping with break may allow kp and/or minspeed to be higher
+    LeftFrontMotor.setStopping(brake);
+    RightFrontMotor.setStopping(brake);
+    LeftBackMotor.setStopping(brake);
+    RightBackMotor.setStopping(brake);
+    LeftStackMotor.setStopping(brake);
+    RightStackMotor.setStopping(brake);
+
+    LeftFrontMotor.stop();
+    RightFrontMotor.stop();
+    LeftBackMotor.stop();
+    RightBackMotor.stop();
+    LeftStackMotor.stop();
+    RightStackMotor.stop();
+
+    //put breaking back to coast after hanging out
+    wait(25, msec);
+
+    LeftFrontMotor.setStopping(coast);
+    RightFrontMotor.setStopping(coast);
+    LeftBackMotor.setStopping(coast);
+    RightBackMotor.setStopping(coast);
+    LeftStackMotor.setStopping(coast);
+    RightStackMotor.setStopping(coast);
+}
