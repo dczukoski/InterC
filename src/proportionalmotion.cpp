@@ -63,13 +63,13 @@ void turnLeftProportional(double target) {
 
 void driveForwardProportional(double distance) {   //inches
     //Drive Forward Proportional
-    LeftFrontMotor.resetPosition();
+    LeftMotors.resetPosition();
   
     //Convert Inches to Motor Encoder Degrees
     double target = inchesToDegrees(distance); 
 
-    while(LeftFrontMotor.position(degrees) < target) {
-        double proportion = target - LeftFrontMotor.position(degrees); 
+    while(LeftMotors.position(degrees) < target) {
+        double proportion = target - LeftMotors.position(degrees); 
         double kp = .05;
         double min_speed = .25;
         double speed = proportion * kp + min_speed; //one way to break out of the loop
@@ -83,13 +83,13 @@ void driveForwardProportional(double distance) {   //inches
 
 void driveReverseProportional(double distance) {   //inches
     //Drive Forward Proportional
-    LeftFrontMotor.resetPosition();
+    LeftMotors.resetPosition();
   
     //Convert Inches to Motor Encoder Degrees
     double target = inchesToDegrees(distance); 
 
-    while(LeftFrontMotor.position(degrees) > -target) {
-        double proportion = target + LeftFrontMotor.position(degrees); 
+    while(LeftMotors.position(degrees) > -target) {
+        double proportion = target + LeftMotors.position(degrees); 
         double kp = .05;
         double min_speed = .25;
         double speed = proportion * kp + min_speed; //one way to break out of the loop
@@ -133,8 +133,8 @@ void driveReverseStraight(double distance, double speed) {    //inches
         double error = targetRotation - InertialA.rotation(degrees);
         double kp = .2;
 
-        double leftSpeed = speed + (error * kp);
-        double rightSpeed = speed - (error * kp);
+        double leftSpeed = speed - (error * kp);
+        double rightSpeed = speed + (error * kp);
 
         LeftMotors.spin(reverse, leftSpeed, pct);
         RightMotors.spin(reverse, rightSpeed, pct);
@@ -142,3 +142,31 @@ void driveReverseStraight(double distance, double speed) {    //inches
     LeftMotors.stop(brake);
     RightMotors.stop(brake);
 }
+
+/*
+void driveForwardStraightPlusProp(double distance, double max_speed) {    //inches
+    InertialA.resetRotation();
+    double targetRotation = InertialA.rotation(degrees); //save heading
+
+    LeftMotors.resetPosition();
+    double targetDistance = inchesToDegrees(distance); 
+
+    while(LeftMotors.position(degrees) < targetDistance) {
+        double error_dist = targetDistance - LeftMotors.position(degrees);
+        //double kp_dist = 1;
+
+        if speed < max_speed = error_dist
+
+        double error_rot = targetRotation - InertialA.rotation(degrees);
+        double kp_rot = .2;
+
+        double leftSpeed = speed - (error_rot * kp_rot);
+        double rightSpeed = speed + (error_rot * kp_rot);
+
+        LeftMotors.spin(fwd, leftSpeed, pct);
+        RightMotors.spin(fwd, rightSpeed, pct);
+    }
+    LeftMotors.stop(brake);
+    RightMotors.stop(brake);
+}
+*/
