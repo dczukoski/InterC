@@ -1,2 +1,0 @@
-void intialize();
-#pragma once

@@ -9,12 +9,15 @@ extern vex::brain       Brain;
 extern controller Con1;
 
 // Six Motor Blue Gear Drive
-extern motor LeftFrontMotor;
-extern motor LeftStackMotor;
-extern motor LeftBackMotor;
-extern motor RightFrontMotor;
-extern motor RightStackMotor;
-extern motor RightBackMotor;
+//extern motor LeftFrontMotor;
+//extern motor LeftStackMotor;
+//extern motor LeftBackMotor;
+//extern motor RightFrontMotor;
+//extern motor RightStackMotor;
+//extern motor RightBackMotor;
+
+extern motor LeftMotor;
+extern motor RightMotor;
 
 // Motor Groups
 extern motor_group LeftMotors;

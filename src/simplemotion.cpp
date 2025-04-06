@@ -12,15 +12,6 @@
 using namespace vex;
 
 // define used instances of motors and sensors as extern here because they are defined in robotconfig files
-
-// Six Motor Blue Gear Drive
-extern motor LeftFrontMotor;
-extern motor RightFrontMotor;
-extern motor LeftBackMotor;
-extern motor RightBackMotor;
-extern motor LeftStackMotor;
-extern motor RightStackMotor;
-
 // Motor Groups
 extern motor_group LeftMotors;
 extern motor_group RightMotors;

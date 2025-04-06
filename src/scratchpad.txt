@@ -1,5 +1,33 @@
 timeouts and min speed not included
 
+/*
+void driveForwardStraightPlusProp(double distance, double max_speed) {    //inches
+    InertialA.resetRotation();
+    double targetRotation = InertialA.rotation(degrees); //save heading
+
+    LeftMotors.resetPosition();
+    double targetDistance = inchesToDegrees(distance); 
+
+    while(LeftMotors.position(degrees) < targetDistance) {
+        double error_dist = targetDistance - LeftMotors.position(degrees);
+        //double kp_dist = 1;
+
+        if speed < max_speed = error_dist
+
+        double error_rot = targetRotation - InertialA.rotation(degrees);
+        double kp_rot = .2;
+
+        double leftSpeed = speed - (error_rot * kp_rot);
+        double rightSpeed = speed + (error_rot * kp_rot);
+
+        LeftMotors.spin(fwd, leftSpeed, pct);
+        RightMotors.spin(fwd, rightSpeed, pct);
+    }
+    LeftMotors.stop(brake);
+    RightMotors.stop(brake);
+}
+*/
+
 void driveForwardPH(double distance) {    //inches
     //Drive Forward with Proportional Stop and Proportional Heading Correction
     InertialA.resetHeading();

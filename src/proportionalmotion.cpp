@@ -9,19 +9,10 @@
 
 #include "vex.h"
 #include "robotconfig.h"
-#include "helperfunctions.h"
+#include "common.h"
 using namespace vex;
 
 // define used instances of motors and sensors as extern here because they are defined in robotconfig files
-
-// Six Motor Blue Gear Drive
-extern motor LeftFrontMotor;
-extern motor RightFrontMotor;
-extern motor LeftBackMotor;
-extern motor RightBackMotor;
-extern motor LeftStackMotor;
-extern motor RightStackMotor;
-
 // Motor Groups
 extern motor_group LeftMotors;
 extern motor_group RightMotors;
@@ -143,30 +134,44 @@ void driveReverseStraight(double distance, double speed) {    //inches
     RightMotors.stop(brake);
 }
 
-/*
-void driveForwardStraightPlusProp(double distance, double max_speed) {    //inches
-    InertialA.resetRotation();
-    double targetRotation = InertialA.rotation(degrees); //save heading
+void turnRightToHeading(double targetHeading){
+    double kp = .3;
+    targetHeading = wrapAngle(targetHeading);
 
-    LeftMotors.resetPosition();
-    double targetDistance = inchesToDegrees(distance); 
+    double currentHeading = wrapAngle(InertialA.heading(degrees));
+    double error = clockwiseDistance(currentHeading, targetHeading);
+    double speed = error * kp;
 
-    while(LeftMotors.position(degrees) < targetDistance) {
-        double error_dist = targetDistance - LeftMotors.position(degrees);
-        //double kp_dist = 1;
-
-        if speed < max_speed = error_dist
-
-        double error_rot = targetRotation - InertialA.rotation(degrees);
-        double kp_rot = .2;
-
-        double leftSpeed = speed - (error_rot * kp_rot);
-        double rightSpeed = speed + (error_rot * kp_rot);
-
-        LeftMotors.spin(fwd, leftSpeed, pct);
-        RightMotors.spin(fwd, rightSpeed, pct);
+    while(fabs(error) > 2.0){
+        currentHeading = wrapAngle(InertialA.heading(degrees));
+        error = clockwiseDistance(currentHeading, targetHeading);
+        speed = error * kp;
+        LeftMotors.spin(forward, speed, pct);
+        RightMotors.spin(reverse, speed, pct);
     }
     LeftMotors.stop(brake);
-    RightMotors.stop(brake);
+    RightMotors.stop(brake);   
 }
-*/
+
+void turnLeftToHeading(double targetHeading){
+    double kp = .3;
+    targetHeading = wrapAngle(targetHeading);
+
+    double currentHeading = wrapAngle(InertialA.heading(degrees));
+    double error = counterclockwiseDistance(currentHeading, targetHeading);
+    double speed = error * kp;
+
+    while(fabs(error) > 2.0){
+        currentHeading = wrapAngle(InertialA.heading(degrees));
+        error = counterclockwiseDistance(currentHeading, targetHeading);
+        speed = error * kp;
+        LeftMotors.spin(reverse, speed, pct);
+        RightMotors.spin(forward, speed, pct);
+    }
+    LeftMotors.stop(brake);
+    RightMotors.stop(brake);   
+}
+
+
+
+

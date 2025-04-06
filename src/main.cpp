@@ -11,16 +11,31 @@ using namespace vex;
 
 // include other needed cpp files
 #include "robotconfig.h"
-#include "intialize.h"
+#include "common.h"
 #include "simplemotion.h"
 #include "proportionalmotion.h"
 
 int main() {
     intialize();
-
+    thread a(brainDisplay);
 
     /*
-    //Simple Movement Testbed
+    //Heading Tests    
+    turnLeftToHeading(270);
+    wait(1, sec);
+    turnLeftToHeading(90);
+    wait(1,sec);
+    turnLeftToHeading(270);
+
+    turnRightToHeading(90);
+    wait(1, sec);
+    turnRightToHeading(270);
+    wait(1,sec);
+    turnRightToHeading(90);
+    */
+
+    /*
+    //Simple Movement Tests
     driveForwardSimple(1000, 50);
     wait(1, sec);
     driveReverseSimple(1000, 50);
@@ -31,25 +46,22 @@ int main() {
     */
 
     /*
-    //Proportinal Movement Testbed
+    //Proportinal Movement Tests
     turnRightProportional(90);
     wait(1, sec);
     turnLeftProportional(90);
     wait(1, sec);
-    driveForwardProportional(24);
+    driveForwardProportional(36);
     wait(1, sec);
-    driveReverseProportional(24);
+    driveReverseProportional(36);
     wait(1, sec);
     */
 
+    /*
+    //Drive Straight Tests
     driveReverseStraight(48, 50);
     wait(1,sec);
     driveForwardStraight(48, 50);
     wait(1, sec);
-
-    while(1) {
-        
-        // Allow other tasks to run
-        this_thread::sleep_for(10);
-    }
+    */
 }
