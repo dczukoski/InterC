@@ -245,8 +245,33 @@ void driveForwardStraightPD(double distance, double max_speed) {   //inches
 
         LeftMotors.spin(fwd, speed + speed_correction, pct);
         RightMotors.spin(fwd, speed - speed_correction, pct);
+
+        wait(10, msec);
     }
     LeftMotors.stop(brake);
     RightMotors.stop(brake);
 }
 
+void turnRightToHeadingPD(double targetHeading){
+    double kp = .3;
+    double kd = .01;
+    targetHeading = wrapAngle(targetHeading);
+
+    double derivative, speed;
+    double currentHeading = wrapAngle(InertialA.heading(degrees));
+    double error = clockwiseDistance(currentHeading, targetHeading);
+    double previousError = error; 
+
+    while(fabs(error) > 2.0){
+        currentHeading = wrapAngle(InertialA.heading(degrees));
+        previousError = error;
+        error = clockwiseDistance(currentHeading, targetHeading);
+        derivative = error - previousError;
+        speed = error * kp + derivative * kd;
+        LeftMotors.spin(forward, speed, pct);
+        RightMotors.spin(reverse, speed, pct);
+        wait(10, msec);
+    }
+    LeftMotors.stop(brake);
+    RightMotors.stop(brake);   
+}
