@@ -101,10 +101,9 @@ void driveForwardStraight(double distance, double speed) {    //inches
 
     while(LeftMotors.position(degrees) < targetDistance) {
         double error = targetRotation - InertialA.rotation(degrees);
-        double kp = .2;
-
-        double leftSpeed = speed - (error * kp);
-        double rightSpeed = speed + (error * kp);
+        double kp = 1;
+        double leftSpeed = speed + (error * kp);
+        double rightSpeed = speed - (error * kp);
 
         LeftMotors.spin(fwd, leftSpeed, pct);
         RightMotors.spin(fwd, rightSpeed, pct);
@@ -122,7 +121,7 @@ void driveReverseStraight(double distance, double speed) {    //inches
 
     while(LeftMotors.position(degrees) > -targetDistance) {
         double error = targetRotation - InertialA.rotation(degrees);
-        double kp = .2;
+        double kp = 1;
 
         double leftSpeed = speed - (error * kp);
         double rightSpeed = speed + (error * kp);

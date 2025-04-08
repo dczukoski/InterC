@@ -57,11 +57,11 @@ int main() {
     wait(1, sec);
     */
 
-    /*
+    
     //Drive Straight Tests
-    driveReverseStraight(48, 50);
-    wait(1,sec);
+    //driveReverseStraight(48, 50);
+    //wait(1,sec);
     driveForwardStraight(48, 50);
     wait(1, sec);
-    */
+    
 }
