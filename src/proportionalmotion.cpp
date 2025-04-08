@@ -171,12 +171,13 @@ void turnLeftToHeading(double targetHeading){
     RightMotors.stop(brake);   
 }
 
-void driveForwardPD(double distance, double speed) {   //inches
+void driveForwardPD(double distance, double max_speed) {   //inches
     //Drive Forward Proportional
     double kp = .5;
     double kd = .05;
     double min_speed = .25;
-    
+    double speed = max_speed;
+
     //Convert Inches to Motor Encoder Degrees
     double target = inchesToDegrees(distance); 
 
@@ -190,7 +191,9 @@ void driveForwardPD(double distance, double speed) {   //inches
         previousError = error;
         error = target - LeftMotors.position(degrees); 
         derivative = error - previousError;
-        speed = error*kp + derivative*kd + min_speed; //one way to break out of the loop
+        speed = error*kp + derivative*kd; 
+        if (speed > max_speed) speed = max_speed;
+        if (speed < min_speed) speed = min_speed;
         LeftMotors.spin(fwd, speed, pct);
         RightMotors.spin(fwd, speed, pct);
         wait(10, msec);
