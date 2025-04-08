@@ -61,7 +61,9 @@ int main() {
     //Drive Straight Tests
     //driveReverseStraight(48, 50);
     //wait(1,sec);
-    driveForwardStraight(48, 50);
-    wait(1, sec);
+    //driveForwardStraight(48, 50);
+    //wait(1, sec);
     
+    driveForwardPD(56,50);
+    wait(1, sec);
 }

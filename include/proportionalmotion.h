@@ -6,4 +6,6 @@ void driveForwardStraight(double distance, double speed);
 void driveReverseStraight(double distance, double speed);
 void turnRightToHeading(double targetHeading);
 void turnLeftToHeading(double targetHeading);
+void driveForwardPD(double distance, double speed);
+void driveForwardStraightPD(double distance, double speed);
 #pragma once

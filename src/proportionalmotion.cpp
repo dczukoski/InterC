@@ -54,6 +54,8 @@ void turnLeftProportional(double target) {
 
 void driveForwardProportional(double distance) {   //inches
     //Drive Forward Proportional
+    double kp = .05;
+    double min_speed = .25;
     LeftMotors.resetPosition();
   
     //Convert Inches to Motor Encoder Degrees
@@ -61,8 +63,6 @@ void driveForwardProportional(double distance) {   //inches
 
     while(LeftMotors.position(degrees) < target) {
         double proportion = target - LeftMotors.position(degrees); 
-        double kp = .05;
-        double min_speed = .25;
         double speed = proportion * kp + min_speed; //one way to break out of the loop
 
         LeftMotors.spin(fwd, speed, pct);
@@ -74,6 +74,8 @@ void driveForwardProportional(double distance) {   //inches
 
 void driveReverseProportional(double distance) {   //inches
     //Drive Forward Proportional
+    double kp = .05;
+    double min_speed = .25;
     LeftMotors.resetPosition();
   
     //Convert Inches to Motor Encoder Degrees
@@ -81,8 +83,6 @@ void driveReverseProportional(double distance) {   //inches
 
     while(LeftMotors.position(degrees) > -target) {
         double proportion = target + LeftMotors.position(degrees); 
-        double kp = .05;
-        double min_speed = .25;
         double speed = proportion * kp + min_speed; //one way to break out of the loop
 
         LeftMotors.spin(reverse, speed, pct);
@@ -171,6 +171,74 @@ void turnLeftToHeading(double targetHeading){
     RightMotors.stop(brake);   
 }
 
+void driveForwardPD(double distance, double speed) {   //inches
+    //Drive Forward Proportional
+    double kp = .5;
+    double kd = .05;
+    double min_speed = .25;
+    
+    //Convert Inches to Motor Encoder Degrees
+    double target = inchesToDegrees(distance); 
 
+    double derivative;
+    double error = target - LeftMotors.position(degrees);
+    double previousError = error;
 
+    LeftMotors.resetPosition();
+
+    while(fabs(error) > 2.0) { //
+        previousError = error;
+        error = target - LeftMotors.position(degrees); 
+        speed = error*kp + derivative*kd + min_speed; //one way to break out of the loop
+        derivative = error - previousError;
+        LeftMotors.spin(fwd, speed, pct);
+        RightMotors.spin(fwd, speed, pct);
+    }
+    LeftMotors.stop(brake);
+    RightMotors.stop(brake);
+}
+
+void driveForwardStraightPD(double distance, double speed) {   //inches
+    //Drive Forward Proportional
+    LeftMotors.resetPosition();
+    double target_d = inchesToDegrees(distance); //Convert Inches to Motor Encoder Degrees
+
+    double kp_d = .5;
+    double kd_d = .05;
+    double min_speed = .25;
+
+    double derivative_d;
+    double error_d = target_d - LeftMotors.position(degrees);
+    double previousError_d = error_d;
+
+    InertialA.resetRotation();
+    double target_h = InertialA.rotation(degrees);    
+    double speed_correction = 0.0;
+
+    double kp_h = .5;
+    double kd_h = .05;
+
+    double derivative_h;
+    double error_h = target_h - InertialA.rotation(degrees);
+    double previousError_h = error_h; 
+
+    while(fabs(error_d) > 2.0) { //
+        //distance pd calcs
+        previousError_d = error_d;
+        error_d = target_d - LeftMotors.position(degrees); 
+        speed = error_d*kp_d + derivative_d*kd_d + min_speed; //one way to break out of the loop
+        derivative_d = error_d - previousError_d;
+        
+        //correction pd calcs
+        previousError_h = error_h;
+        error_h = target_h - InertialA.rotation(degrees); 
+        speed_correction = error_h*kp_h + derivative_h*kd_h;
+        derivative_h = error_h - previousError_h;
+        
+        LeftMotors.spin(fwd, speed + speed_correction, pct);
+        RightMotors.spin(fwd, speed - speed_correction, pct);
+    }
+    LeftMotors.stop(brake);
+    RightMotors.stop(brake);
+}
 
