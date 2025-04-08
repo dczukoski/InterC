@@ -189,10 +189,11 @@ void driveForwardPD(double distance, double speed) {   //inches
     while(fabs(error) > 2.0) { //
         previousError = error;
         error = target - LeftMotors.position(degrees); 
-        speed = error*kp + derivative*kd + min_speed; //one way to break out of the loop
         derivative = error - previousError;
+        speed = error*kp + derivative*kd + min_speed; //one way to break out of the loop
         LeftMotors.spin(fwd, speed, pct);
         RightMotors.spin(fwd, speed, pct);
+        wait(10, msec);
     }
     LeftMotors.stop(brake);
     RightMotors.stop(brake);
