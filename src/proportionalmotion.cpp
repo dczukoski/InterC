@@ -202,7 +202,7 @@ void driveForwardPD(double distance, double max_speed) {   //inches
     RightMotors.stop(brake);
 }
 
-void driveForwardStraightPD(double distance, double speed) {   //inches
+void driveForwardStraightPD(double distance, double max_speed) {   //inches
     //Drive Forward Proportional
     LeftMotors.resetPosition();
     double target_d = inchesToDegrees(distance); //Convert Inches to Motor Encoder Degrees
@@ -210,6 +210,7 @@ void driveForwardStraightPD(double distance, double speed) {   //inches
     double kp_d = .5;
     double kd_d = .05;
     double min_speed = .25;
+    double speed = max_speed;
 
     double derivative_d;
     double error_d = target_d - LeftMotors.position(degrees);
@@ -238,7 +239,10 @@ void driveForwardStraightPD(double distance, double speed) {   //inches
         error_h = target_h - InertialA.rotation(degrees); 
         speed_correction = error_h*kp_h + derivative_h*kd_h;
         derivative_h = error_h - previousError_h;
-        
+    
+        if (speed > max_speed) speed = max_speed;
+        if (speed < min_speed) speed = min_speed;
+
         LeftMotors.spin(fwd, speed + speed_correction, pct);
         RightMotors.spin(fwd, speed - speed_correction, pct);
     }
