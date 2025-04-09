@@ -231,7 +231,7 @@ void driveForwardStraightPD(double distance, double max_speed) {   //inches
         //distance pd calcs
         previousError_d = error_d;
         error_d = target_d - LeftMotors.position(degrees); 
-        speed = error_d*kp_d + derivative_d*kd_d + min_speed; //one way to break out of the loop
+        speed = error_d*kp_d + derivative_d*kd_d; //one way to break out of the loop
         derivative_d = error_d - previousError_d;
         
         //correction pd calcs

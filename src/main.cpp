@@ -19,6 +19,14 @@ int main() {
     intialize();
     thread a(brainDisplay);
 
+    turnRightToHeading(270);
+    wait(1,sec);
+    turnRightToHeading(90);
+    wait(1,sec);
+    turnLeftToHeading(270);
+    wait(1,sec);
+    turnLeftToHeading(0);
+
     /*
     //Heading Tests    
     turnLeftToHeading(270);
@@ -64,6 +72,6 @@ int main() {
     //driveForwardStraight(48, 50);
     //wait(1, sec);
     
-    driveForwardPD(56,50);
-    wait(1, sec);
+    //driveForwardPD(56,50);
+    //wait(1, sec);
 }
