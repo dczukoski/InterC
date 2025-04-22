@@ -76,6 +76,7 @@ void brainDisplay(){
 
 //Debugging functions are used to display sensor values to the screen
 int controllerDisplay(){
+    Con1.Screen.clearScreen();
     while(true){
         Con1.Screen.setCursor(1,1);
         Con1.Screen.print("X Position %f",getXposition());
@@ -83,8 +84,14 @@ int controllerDisplay(){
         Con1.Screen.print("Y Position %f",getYposition());
         Con1.Screen.setCursor(3,1);
         Con1.Screen.print("Heading %f",InertialA.heading(degrees));
-        wait(50,msec);
-        Con1.Screen.clearScreen();
+        wait(10,msec);
+        
     }
     return 0;
 }
+
+
+
+  
+  
+  

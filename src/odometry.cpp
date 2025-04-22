@@ -10,6 +10,8 @@
 #include "vex.h"
 #include "robotconfig.h"
 #include "common.h"
+#include "simplemotion.h"
+#include "proportionalmotion.h"
 using namespace vex;
 
 // define used instances of motors and sensors as extern here because they are defined in robotconfig files
@@ -62,8 +64,34 @@ float getYposition(){
 }
 
 
+// Returns the straight-line distance to the target point
+float getDistanceToTarget(float targetX, float targetY) {
+    float deltaX = targetX - getXposition();
+    float deltaY = targetY - getYposition();
+    return sqrt(deltaX * deltaX + deltaY * deltaY);
+  }
+  
+// Returns the heading you need to face the target point (0–360°)
+float getHeadingToTarget(float targetX, float targetY) {
+    float deltaX = targetX - getXposition();
+    float deltaY = targetY - getYposition();
+  
+    float angleToTargetDeg = atan2(deltaY, deltaX) * 180.0 / M_PI;
+  
+    if (angleToTargetDeg < 0) angleToTargetDeg += 360.0;
+  
+    return angleToTargetDeg;
+}
 
+void driveDirectToPoint(float targetX, float targetY){
+    double dist = getDistanceToTarget(targetX, targetY);
+    double degs = wrapAngle(getHeadingToTarget(targetX, targetY));
 
-
-
+    if(degs>180){
+        turnLeftToHeading(degs);
+    }else{
+        turnRightToHeading(degs);
+    }
+    driveForwardStraightPD(dist, 50);
+}
 
