@@ -9,6 +9,8 @@
 
 #include "vex.h"
 #include "robotconfig.h"
+#include "odometry.h"
+
 using namespace vex;
 
 // define used instances of motors and sensors as extern here because they are defined in robotconfig files
@@ -22,6 +24,9 @@ extern inertial InertialA;
 void intialize(){
     InertialA.calibrate();
     wait(3,sec);
+
+    LeftMotors.resetPosition();
+    RightMotors.resetPosition();
 }
 
 // Define constants 
@@ -63,6 +68,23 @@ void brainDisplay(){
         Brain.Screen.printAt(1,50,"RightM %f",RightMotors.position(degrees));
         Brain.Screen.printAt(1,70,"Rotation %f",InertialA.rotation(degrees));
         Brain.Screen.printAt(1,90,"Heading %f",InertialA.heading(degrees));
+        Brain.Screen.printAt(1,110,"X %f",getXposition());
+        Brain.Screen.printAt(1,130,"Y %f",getYposition());
+        wait(.25,sec);
+    }
+}
+
+//Debugging functions are used to display sensor values to the screen
+void controllerDisplay(){
+    while(true){
+        controller(primary).Screen.clearScreen();
+        //controller(primary).Screen.setCursor(4,1);
+        controller(primary).Screen.print("X Position %f",getXposition());
+        controller(primary).Screen.newLine();
+        //controller(primary).Screen.
+        //controller(primary).Screen.setCursor(3,1);
+        controller(primary).Screen.print("Y Position %f",getYposition());
+
         wait(.25,sec);
     }
 }

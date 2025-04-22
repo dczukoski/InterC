@@ -14,11 +14,24 @@ using namespace vex;
 #include "common.h"
 #include "simplemotion.h"
 #include "proportionalmotion.h"
+#include "odometry.h"
 
 int main() {
     intialize();
     thread a(brainDisplay);
 
+    thread b(controllerDisplay);
+
+    thread c(updateOdometry);
+      
+ 
+
+
+
+
+
+
+    /*
     turnRightToHeading(270);
     wait(1,sec);
     turnRightToHeading(90);
@@ -26,6 +39,7 @@ int main() {
     turnLeftToHeading(270);
     wait(1,sec);
     turnLeftToHeading(0);
+    */
 
     /*
     //Heading Tests    

@@ -30,12 +30,12 @@ controller Con1 = controller(primary);
 //motor_group RightMotors = motor_group(RightFrontMotor, RightBackMotor, RightStackMotor);
 
 //Two Motor Ghost DriveTrain
-motor LeftMotor(PORT2, ratio18_1, false); 
-motor RightMotor(PORT1, ratio18_1, true); 
+motor LeftMotor(PORT1, ratio18_1, false); 
+motor RightMotor(PORT2, ratio18_1, true); 
 
 // Motor Groups 
 motor_group LeftMotors = motor_group(LeftMotor);
 motor_group RightMotors = motor_group(RightMotor);
 
 //Sensors
-inertial InertialA = inertial(PORT12);
+inertial InertialA = inertial(PORT20);
