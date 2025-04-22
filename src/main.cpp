@@ -19,16 +19,14 @@ using namespace vex;
 int main() {
     intialize();
     thread a(brainDisplay);
-
     thread b(controllerDisplay);
-
     thread c(updateOdometry);
       
  
 
 
 
-
+    //thread b(controllerDisplay);
 
 
     /*

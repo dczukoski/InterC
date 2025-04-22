@@ -38,7 +38,7 @@ void updateOdometry(){
         float theta = heading * M_PI / 180.0;
 
         // Get encoder position
-        float currentEncoder = LeftMotors.position(degrees);
+        float currentEncoder = (LeftMotors.position(degrees) + RightMotors.position(degrees)) /2;
         float deltaTicks = currentEncoder - lastEncoder;
         lastEncoder = currentEncoder;
 
