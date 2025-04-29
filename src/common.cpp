@@ -27,6 +27,8 @@ void intialize(){
 
     LeftMotors.resetPosition();
     RightMotors.resetPosition();
+
+    Con1.rumble(".-.-");
 }
 
 // Define constants 
@@ -90,8 +92,10 @@ int controllerDisplay(){
     return 0;
 }
 
+// Normalize angle to [-180, 180)
+float wrapAngle180(float angle) {
+    while (angle >= 180.0) angle -= 360.0;
+    while (angle < -180.0) angle += 360.0;
+    return angle;
+  }
 
-
-  
-  
-  
