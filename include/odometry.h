@@ -13,4 +13,8 @@ float getHeadingToTarget(float targetX, float targetY);
 void driveDirectToPoint(float targetX, float targetY);
 
 void driveToPointPID(float targetX, float targetY);
+
+void initializeOdometry(float x, float y);
+
+void initializeOdometry(float x, float y, float heading);
 #pragma once

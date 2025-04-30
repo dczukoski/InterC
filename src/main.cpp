@@ -21,4 +21,12 @@ int main() {
     thread a(brainDisplay);
     thread b(controllerDisplay);
     thread c(updateOdometry);
+
+    //initializeOdometry(18,18);
+
+    driveToPoint(20,20);
+    wait(1, sec);
+    driveToPoint(0,40);
+    wait(1, sec);
+    driveToPoint(0,0);
 }

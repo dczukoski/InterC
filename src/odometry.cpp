@@ -108,8 +108,10 @@ void driveToPoint(float targetX, float targetY) {
     float dy = targetY - currentY;
     float distance = sqrt(dx * dx + dy * dy);
 
-    if (distance < POSITION_TOLERANCE)
+    if (distance < POSITION_TOLERANCE){
+        wait(150, msec);
       break; // Target reached
+    }
 
     float angleToTarget = atan2(dy, dx) * 180.0 / M_PI; // Convert to degrees
     float angleError = wrapAngle180(angleToTarget - currentHeading);
@@ -128,7 +130,7 @@ void driveToPoint(float targetX, float targetY) {
   RightMotors.stop();
 }
 
-void driveToPointPID(float targetX, float targetY) {
+void driveToPointPID(float targetX, float targetY) {  //TODO: pos tol for motion chaining
     float kP_TURN = 0.5;
     float kI_TURN = 0.0;
     float kD_TURN = 0.2;
@@ -138,7 +140,7 @@ void driveToPointPID(float targetX, float targetY) {
     float kD_DRIVE = 0.2;   // Helps slow down as you approach
     
     float MAX_DRIVE_SPEED = 60; // Cap driving speed (percent)
-    float MIN_DRIVE_SPEED = 10; // Don't go too slow
+    float MIN_DRIVE_SPEED = 10; // Don't go too slow  
     float POSITION_TOLERANCE = 1.0; // Inches
 
     float angleErrorSum = 0.0;
@@ -155,8 +157,10 @@ void driveToPointPID(float targetX, float targetY) {
       float dy = targetY - currentY;
       float distance = sqrt(dx * dx + dy * dy);
   
-      if (distance < POSITION_TOLERANCE)
+      if (distance < POSITION_TOLERANCE) {
+        wait(150, msec); //settling
         break;
+      }
   
       // Angle PID
       float angleToTarget = atan2(dy, dx) * 180.0 / M_PI;
@@ -198,8 +202,13 @@ void driveToPointPID(float targetX, float targetY) {
     RightMotors.stop();
   }
 
-  void resetOdometry(float x, float y) {
+  void initializeOdometry(float x, float y) {
     XPosition = x;
     YPosition = y;
   }
-  
+
+  void initializeOdometry(float x, float y, float heading) {
+    XPosition = x;
+    YPosition = y;
+    InertialA.setHeading(heading, deg);
+  }
